@@ -1,0 +1,45 @@
+# pulled in from the init script; makes things easier.
+NAME=jenkins
+
+# Allow graphs etc. to work even when an X server is present
+JAVA_ARGS="-Djava.awt.headless=true"
+
+#JAVA_ARGS="-Xmx256m"
+
+# make jenkins listen on IPv4 address
+#JAVA_ARGS="-Djava.net.preferIPv4Stack=true"
+
+PIDFILE=/var/run/$NAME/$NAME.pid
+
+# user and group to be invoked as (default to jenkins)
+JENKINS_USER=$NAME
+JENKINS_GROUP=$NAME
+
+# location of the jenkins war file
+JENKINS_WAR=/usr/share/$NAME/$NAME.war
+
+# jenkins home location
+JENKINS_HOME=/var/lib/$NAME
+
+# set this to false if you don't want Jenkins to run by itself
+# in this set up, you are expected to provide a servlet container
+# to host jenkins.
+RUN_STANDALONE=true
+
+# log location.  this may be a syslog facility.priority
+JENKINS_LOG=/var/log/$NAME/$NAME.log
+#JENKINS_LOG=daemon.info
+
+JENKINS_ENABLE_ACCESS_LOG="no"
+
+MAXOPENFILES=8192
+
+# UMASK=027
+
+# port for HTTP connector (default 8080; disable with -1)
+HTTP_PORT=8080
+
+# servlet context, important if you want to use apache proxying
+PREFIX=/$NAME
+
+JENKINS_ARGS="--webroot=/var/cache/$NAME/war --httpPort=$HTTP_PORT --httpListenAddress=127.0.0.1"
