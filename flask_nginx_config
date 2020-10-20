@@ -1,0 +1,27 @@
+server {
+    server_name flask.dnsharbor.com;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/ugoski/flaskproject/flaskproject.sock;
+    }
+
+    listen 443 ssl; 
+    ssl_certificate /etc/ssl/live/flask.dnsharbor.com/fullchain.pem;
+    ssl_certificate_key /etc/ssl/live/flask.dnsharbor.com/privkey.pem;
+    include /etc/ssl/options-ssl-nginx.conf;
+    ssl_dhparam /etc/ssl/ssl-dhparams.pem;
+
+}
+server {
+    if ($host = flask.dnsharbor.com) {
+        return 301 https://$host$request_uri;
+    } 
+
+
+    listen 80;
+    server_name flask.dnsharbor.com;
+    return 404; 
+
+
+}
